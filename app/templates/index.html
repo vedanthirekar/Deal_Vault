@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+<div class="jumbotron p-5 mb-4 bg-light rounded-3">
+    <h1 class="display-4">Community Deals</h1>
+    <p class="lead">Find and share the best deals in your community.</p>
+    {% if current_user.is_authenticated %}
+        <a href="{{ url_for('main.new_deal') }}" class="btn btn-primary">Post a New Deal</a>
+        <a href="{{ url_for('main.all_deals') }}" class="btn btn-outline-secondary mt-2">View All Deals</a>
+
+    {% else %}
+        <a href="{{ url_for('auth.register') }}" class="btn btn-success">Join Now</a>
+        <a href="{{ url_for('auth.login') }}" class="btn btn-outline-primary">Login</a>
+    {% endif %}
+</div>
+
+{% endblock %}

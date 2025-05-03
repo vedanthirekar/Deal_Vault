@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block title %}Browse Deals{% endblock %}
+{% block content %}
+<h2>Browse Deals</h2>
+<form method="get" class="row g-3 mb-4">
+    <div class="col-md-3">
+        <input type="text" name="store" class="form-control" placeholder="Search by Store" value="{{ store_query or '' }}">
+    </div>
+    <div class="col-md-3">
+        <select name="category" class="form-select">
+            <option value="">All Categories</option>
+            {% for cat in categories %}
+                <option value="{{ cat.category_id }}" {% if category_query == cat.category_id %}selected{% endif %}>{{ cat.category_name }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <div class="col-md-3">
+        <input type="text" name="desc" class="form-control" placeholder="Description keywords" value="{{ desc_query or '' }}">
+    </div>
+    <div class="col-md-2">
+        <select name="sort" class="form-select">
+            <option value="latest" {% if sort == 'latest' %}selected{% endif %}>Latest</option>
+            <option value="popular" {% if sort == 'popular' %}selected{% endif %}>Popular</option>
+        </select>
+    </div>
+    <div class="col-md-1">
+        <button class="btn btn-primary w-100">Search</button>
+    </div>
+</form>
+
+{% for deal in deals %}
+<div class="card deal-card">
+    <div class="card-body">
+        <h5 class="card-title">{{ deal.deal_desc }}</h5>
+        <p>Store: {{ deal.store.store_name }} | Category: {{ deal.category.category_name }}</p>
+
+        {% if deal.deal_amount %}<p class="card-text">Amount: ${{ deal.deal_amount }}</p>{% endif %}
+        <a href="{{ url_for('main.deal', deal_id=deal.deal_id) }}" class="btn btn-outline-secondary btn-sm">View Deal</a>
+    </div>
+</div>
+{% endfor %}
+{% endblock %}

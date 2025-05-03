@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block title %}{{ deal.deal_desc }}{% endblock %}
+{% block content %}
+<div class="card">
+    <div class="card-header d-flex justify-content-between align-items-center">
+        <h3>{{ deal.deal_desc }}</h3>
+        {% if deal.deal_amount %}
+            <span class="badge bg-success">${{ "%.2f"|format(deal.deal_amount) }}</span>
+        {% endif %}
+    </div>
+    <div class="card-body">
+        <p><strong>Store:</strong> {{ deal.store.store_name }}</p>
+        <p><strong>Category:</strong> {{ deal.category.category_name }}</p>
+        <p><strong>Description:</strong> {{ deal.deal_desc }}</p>
+
+        <div class="d-flex justify-content-between text-muted mt-3">
+            <small>Posted by {{ deal.author.username }} on {{ deal.deal_entered.strftime('%Y-%m-%d') }}</small>
+            {% if deal.deal_validity %}
+                <small>Valid until {{ deal.deal_validity.strftime('%Y-%m-%d') }}</small>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}
