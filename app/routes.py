@@ -97,7 +97,7 @@ def new_deal():
             store_id=store.store_id,
             category_id=form.category_id.data,
             deal_desc=form.deal_desc.data,
-            deal_amount=form.deal_amount.data,
+            promo_code=form.promo_code.data,
             deal_validity=form.deal_validity.data,
             user_id=current_user.user_id
         )
@@ -177,7 +177,7 @@ def update_deal(deal_id):
         deal.store_id = store.store_id
         deal.category_id = form.category_id.data
         deal.deal_desc = form.deal_desc.data
-        deal.deal_amount = form.deal_amount.data
+        deal.promo_code = form.promo_code.data
         deal.deal_validity = form.deal_validity.data
         db.session.commit()
         flash('Deal updated successfully!', 'success')
@@ -187,7 +187,7 @@ def update_deal(deal_id):
         form.store_name.data = deal.store.store_name
         form.category_id.data = deal.category_id
         form.deal_desc.data = deal.deal_desc
-        form.deal_amount.data = deal.deal_amount
+        form.promo_code.data = deal.promo_code
         form.deal_validity.data = deal.deal_validity
 
     return render_template('create_deal.html', title='Update Deal', form=form, legend='Update Deal')
@@ -223,7 +223,7 @@ def visualizations():
         'category': c.category_name,
         'store': s.store_name,
         'user': u.username,
-        'amount': d.deal_amount,
+        'amount': d.promo_code,
         'likes': len(d.likes),
         'desc': d.deal_desc,
         'date': d.deal_entered

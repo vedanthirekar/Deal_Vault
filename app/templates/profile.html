@@ -9,7 +9,7 @@
             <div class="card-body">
                 <h5>{{ deal.deal_desc }}</h5>
                 <p>Category: {{ deal.category.category_name }} | Store: {{ deal.store.store_name }}</p>
-                <p>Amount: ${{ deal.deal_amount }}</p>
+                <p>Amount: ${{ deal.promo_code }}</p>
                 <a href="{{ url_for('main.deal', deal_id=deal.deal_id) }}" class="btn btn-sm btn-secondary">View</a>
                 <a href="{{ url_for('main.update_deal', deal_id=deal.deal_id) }}" class="btn btn-sm btn-warning">Edit</a>
                 <form method="POST" action="{{ url_for('main.delete_deal', deal_id=deal.deal_id) }}" style="display:inline;">
@@ -30,7 +30,7 @@
             <div class="card-body">
                 <h5>{{ deal.deal_desc }}</h5>
                 <p>Category: {{ deal.category.category_name }} | Store: {{ deal.store.store_name }}</p>
-                <p>Amount: ${{ deal.deal_amount }}</p>
+                <p>Amount: ${{ deal.promo_code }}</p>
                 <a href="{{ url_for('main.deal', deal_id=deal.deal_id) }}" class="btn btn-sm btn-secondary">View</a>
             </div>
         </div>

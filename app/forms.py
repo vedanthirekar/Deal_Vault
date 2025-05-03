@@ -36,6 +36,6 @@ class DealForm(FlaskForm):
     store_name = StringField('Store Name', validators=[DataRequired(), Length(min=2, max=100)])
     category_id = SelectField('Category', coerce=int, validators=[DataRequired()])
     deal_desc = TextAreaField('Deal Description', validators=[DataRequired()])
-    deal_amount = FloatField('Deal Amount', validators=[Optional(), NumberRange(min=0)])
+    promo_code = StringField('Promo Code', validators=[Optional(), Length(max=50)])
     deal_validity = DateField('Deal Validity', validators=[Optional()], format='%Y-%m-%d')
     submit = SubmitField('Post Deal')
