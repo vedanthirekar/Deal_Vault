@@ -1,8 +1,16 @@
 from flask import Blueprint, render_template, flash, redirect, url_for, request
 from flask_login import login_user, current_user, logout_user, login_required
 from . import db
-from .models import User, Deal
+from .models import User, Deal, Store, Category
 from .forms import RegistrationForm, LoginForm, DealForm
+import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+import squarify
+from io import BytesIO
+import base64
+import numpy as np
+
 
 main = Blueprint('main', __name__)
 auth = Blueprint('auth', __name__)
@@ -196,18 +204,7 @@ def delete_deal(deal_id):
     flash('Deal deleted successfully!', 'info')
     return redirect(url_for('main.profile'))
 
-from flask import Blueprint, render_template, flash, redirect, url_for, request
-from flask_login import login_user, current_user, logout_user, login_required
-from . import db
-from .models import User, Deal, Store, Category
-from .forms import RegistrationForm, LoginForm, DealForm
-import pandas as pd
-import seaborn as sns
-import matplotlib.pyplot as plt
-import squarify
-from io import BytesIO
-import base64
-import numpy as np
+
 
 
 
