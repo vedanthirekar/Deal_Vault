@@ -1,19 +1,27 @@
 {% extends "base.html" %}
 
-{% block title %}Home{% endblock %}
+{% block title %}Welcome to DealVault{% endblock %}
 
 {% block content %}
-<div class="jumbotron p-5 mb-4 bg-light rounded-3">
-    <h1 class="display-4">Community Deals</h1>
-    <p class="lead">Find and share the best deals in your community.</p>
-    {% if current_user.is_authenticated %}
-        <a href="{{ url_for('main.new_deal') }}" class="btn btn-primary">Post a New Deal</a>
-        <a href="{{ url_for('main.all_deals') }}" class="btn btn-outline-secondary mt-2">View All Deals</a>
-
-    {% else %}
-        <a href="{{ url_for('auth.register') }}" class="btn btn-success">Join Now</a>
-        <a href="{{ url_for('auth.login') }}" class="btn btn-outline-primary">Login</a>
-    {% endif %}
+<div class="jumbotron p-4 mb-4 bg-light rounded-3">
+    <div class="container py-3">
+        <h1 class="display-4">Welcome, {{ current_user.username }}</h1>
+        <div class="d-flex flex-wrap gap-2 mt-4">
+            <a href="{{ url_for('main.all_deals') }}" class="btn btn-outline-primary btn-md">Browse All Deals</a>
+            <a href="{{ url_for('main.new_deal') }}" class="btn btn-primary btn-md">Post a Deal</a>
+        </div>
+    </div>
 </div>
 
+<div class="container mt-5">
+    <h3 class="text-center mb-4">Categories You Can Explore</h3>
+    <p class="text-center">DealVault covers a wide range of categories to help you find the best deals in your community:</p>
+    <ul class="list-group list-group-flush mt-3">
+        {% for cat in categories %}
+        <li class="list-group-item">
+            <strong>{{ cat.category_name }}</strong>: {{ cat.category_desc or "Discover top deals in this category." }}
+        </li>
+        {% endfor %}
+    </ul>
+</div>
 {% endblock %}

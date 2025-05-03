@@ -60,8 +60,12 @@ def logout():
 @main.route('/')
 @main.route('/home')
 def index():
-    deals = Deal.query.order_by(Deal.deal_entered.desc()).all()
-    return render_template('index.html', deals=deals)
+    if current_user.is_authenticated:
+        categories = Category.query.all()
+        return render_template('index.html', categories=categories)
+    else:
+        return render_template('welcome.html')
+
 
 from .models import Store, Category  # add this import
 
@@ -210,7 +214,7 @@ import numpy as np
 @main.route("/visualizations")
 @login_required
 def visualizations():
-    sns.set_theme(style="whitegrid", palette="YlGnBu")
+    sns.set_theme(style="whitegrid", palette="Set2")
     plt.rcParams.update({'font.size': 12})
 
     deals = db.session.query(Deal, User, Store, Category).\
@@ -239,7 +243,7 @@ def visualizations():
         return base64.b64encode(buf.read()).decode()
 
     # Define a consistent palette
-    palette = sns.color_palette("YlGnBu", as_cmap=False)
+    palette = sns.color_palette("pastel", as_cmap=False)
 
     # 1. Pie Chart: Deals per Category
     fig1, ax1 = plt.subplots(figsize=(6, 6))

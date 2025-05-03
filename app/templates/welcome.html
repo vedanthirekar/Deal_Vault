@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block title %}Welcome to DealVault{% endblock %}
+
+{% block content %}
+<div class="jumbotron p-5 mb-4 bg-light rounded-3">
+    <div class="container py-5">
+        <h1 class="display-4">Welcome to <span class="text-primary">DealVault</span></h1>
+        <p class="lead mt-3">Discover, post, and share the best community-driven deals around you.</p>
+        <p>DealVault is your local platform to uncover hidden gems in retail, grocery, electronics, and more — shared by real users like you. Save money, post amazing finds, and explore trending offers.</p>
+        <p>Ready to join the community?</p>
+        <div class="d-flex flex-wrap gap-2 mt-4">
+            <a href="{{ url_for('auth.register') }}" class="btn btn-primary btn-md">Join Now</a>
+            <a href="{{ url_for('auth.login') }}" class="btn btn-outline-secondary btn-md">Login</a>
+        </div>
+    </div>
+</div>
+
+<div class="row text-center mt-5">
+    <div class="col-md-4">
+        <h5>Find Deals</h5>
+        <p>Browse community-verified deals and discounts from local stores.</p>
+    </div>
+    <div class="col-md-4">
+        <h5>Share Your Finds</h5>
+        <p>Post exciting offers you spot to help others save more.</p>
+    </div>
+    <div class="col-md-4">
+        <h5>Visualize Trends</h5>
+        <p>Explore insights into top stores, popular categories, and more.</p>
+    </div>
+</div>
+{% endblock %}
