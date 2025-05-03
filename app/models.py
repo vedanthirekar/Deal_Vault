@@ -100,4 +100,3 @@ class DealLike(db.Model):
 
 
 
-
