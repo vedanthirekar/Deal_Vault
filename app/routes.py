@@ -205,9 +205,6 @@ def delete_deal(deal_id):
     return redirect(url_for('main.profile'))
 
 
-
-
-
 @main.route("/visualizations")
 @login_required
 def visualizations():
@@ -240,7 +237,7 @@ def visualizations():
         return base64.b64encode(buf.read()).decode()
 
     # Define a consistent palette
-    palette = sns.color_palette("pastel", as_cmap=False)
+    palette = sns.color_palette("coolwarm", as_cmap=False)
 
     # 1. Pie Chart: Deals per Category
     fig1, ax1 = plt.subplots(figsize=(6, 6))
@@ -284,7 +281,7 @@ def visualizations():
     # 5. Bar Plot: Top 3 Most Liked Deals
     top_liked = df.sort_values(by='likes', ascending=False).head(3)
     fig5, ax5 = plt.subplots(figsize=(8, 4))
-    sns.barplot(x=top_liked['likes'], y=top_liked['desc'].str[:30] + '...', ax=ax5, palette=palette[:len(top_liked)])
+    sns.barplot(x=top_liked['likes'], y=top_liked['desc'].str[:30] + '...', ax=ax5, palette=palette)  # darker palette
     for i, v in enumerate(top_liked['likes']):
         ax5.text(v + 0.5, i, str(v), color='black', va='center')
     ax5.set_title("Top 3 Most Liked Deals")
