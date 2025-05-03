@@ -59,7 +59,7 @@ class Deal(db.Model):
     store_id = db.Column(db.Integer, db.ForeignKey('stores.store_id'), nullable=False)
     category_id = db.Column(db.Integer, db.ForeignKey('categories.category_id'), nullable=False)
     deal_desc = db.Column(db.Text, nullable=False)
-    promo_code = db.Column(db.String(50), nullable=True)
+    promo_code = db.Column(db.String(100), nullable=True)
     deal_entered = db.Column(db.Date, default=datetime.utcnow)
     deal_validity = db.Column(db.Date, nullable=True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'), nullable=False)

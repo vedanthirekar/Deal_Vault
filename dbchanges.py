@@ -15,10 +15,10 @@ try:
     cur = conn.cursor()
 
     # Modify this as needed
-    cur.execute("ALTER TABLE deals RENAME COLUMN deal_amount TO promo_code;")
+    cur.execute("ALTER TABLE deals ALTER COLUMN promo_code TYPE VARCHAR(100);")
     conn.commit()
 
-    print("Column renamed successfully.")
+    print("Column changed successfully.")
 
 except Exception as e:
     print("Error:", e)
