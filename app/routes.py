@@ -127,3 +127,74 @@ def all_deals():
 def deal(deal_id):
     deal = Deal.query.get_or_404(deal_id)
     return render_template('deal.html', title=deal.deal_desc, deal=deal)
+
+@main.route('/like/<int:deal_id>', methods=['POST'])
+@login_required
+def toggle_like(deal_id):
+    deal = Deal.query.get_or_404(deal_id)
+    if current_user.has_liked(deal):
+        current_user.unlike_deal(deal)
+    else:
+        current_user.like_deal(deal)
+    return redirect(request.referrer or url_for('main.index'))
+
+@main.route('/profile')
+@login_required
+def profile():
+    posted_deals = Deal.query.filter_by(user_id=current_user.user_id).order_by(Deal.deal_entered.desc()).all()
+    liked_deals = [like.deal for like in current_user.liked_deals]
+
+    return render_template('profile.html', posted_deals=posted_deals, liked_deals=liked_deals)
+
+@main.route('/deals/<int:deal_id>/update', methods=['GET', 'POST'])
+@login_required
+def update_deal(deal_id):
+    deal = Deal.query.get_or_404(deal_id)
+    if deal.author != current_user:
+        abort(403)
+
+    form = DealForm()
+    form.category_id.choices = [(c.category_id, c.category_name) for c in Category.query.all()]
+    if form.validate_on_submit():
+        store = Store.query.filter_by(store_name=form.store_name.data.strip()).first()
+        if not store:
+            store = Store(store_name=form.store_name.data.strip())
+            db.session.add(store)
+            db.session.commit()
+
+        deal.store_id = store.store_id
+        deal.category_id = form.category_id.data
+        deal.deal_desc = form.deal_desc.data
+        deal.deal_amount = form.deal_amount.data
+        deal.deal_validity = form.deal_validity.data
+        db.session.commit()
+        flash('Deal updated successfully!', 'success')
+        return redirect(url_for('main.profile'))
+
+    elif request.method == 'GET':
+        form.store_name.data = deal.store.store_name
+        form.category_id.data = deal.category_id
+        form.deal_desc.data = deal.deal_desc
+        form.deal_amount.data = deal.deal_amount
+        form.deal_validity.data = deal.deal_validity
+
+    return render_template('create_deal.html', title='Update Deal', form=form, legend='Update Deal')
+
+
+@main.route('/deals/<int:deal_id>/delete', methods=['POST'])
+@login_required
+def delete_deal(deal_id):
+    deal = Deal.query.get_or_404(deal_id)
+    if deal.author != current_user:
+        abort(403)
+    db.session.delete(deal)
+    db.session.commit()
+    flash('Deal deleted successfully!', 'info')
+    return redirect(url_for('main.profile'))
+
+
+@main.route('/visualizations')
+@login_required
+def visualizations():
+    return render_template('visualizations.html')
+

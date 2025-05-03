@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block title %}My Profile{% endblock %}
+
+{% block content %}
+<h2>My Deals</h2>
+{% if posted_deals %}
+    {% for deal in posted_deals %}
+        <div class="card mb-3">
+            <div class="card-body">
+                <h5>{{ deal.deal_desc }}</h5>
+                <p>Category: {{ deal.category.category_name }} | Store: {{ deal.store.store_name }}</p>
+                <p>Amount: ${{ deal.deal_amount }}</p>
+                <a href="{{ url_for('main.deal', deal_id=deal.deal_id) }}" class="btn btn-sm btn-secondary">View</a>
+                <a href="{{ url_for('main.update_deal', deal_id=deal.deal_id) }}" class="btn btn-sm btn-warning">Edit</a>
+                <form method="POST" action="{{ url_for('main.delete_deal', deal_id=deal.deal_id) }}" style="display:inline;">
+                    <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Delete this deal?')">Delete</button>
+                </form>
+            </div>
+        </div>
+    {% endfor %}
+{% else %}
+    <p>You haven't posted any deals yet.</p>
+{% endif %}
+
+<hr>
+<h2>Deals I Liked</h2>
+{% if liked_deals %}
+    {% for deal in liked_deals %}
+        <div class="card mb-3">
+            <div class="card-body">
+                <h5>{{ deal.deal_desc }}</h5>
+                <p>Category: {{ deal.category.category_name }} | Store: {{ deal.store.store_name }}</p>
+                <p>Amount: ${{ deal.deal_amount }}</p>
+                <a href="{{ url_for('main.deal', deal_id=deal.deal_id) }}" class="btn btn-sm btn-secondary">View</a>
+            </div>
+        </div>
+    {% endfor %}
+{% else %}
+    <p>You haven't liked any deals yet.</p>
+{% endif %}
+{% endblock %}
