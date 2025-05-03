@@ -5,13 +5,20 @@
 {% block content %}
 <div class="jumbotron p-5 mb-4 bg-light rounded-3">
     <div class="container py-5">
-        <h1 class="display-4">Welcome to <span class="text-primary">DealVault</span></h1>
-        <p class="lead mt-3">Discover, post, and share the best community-driven deals around you.</p>
-        <p>DealVault is your local platform to uncover hidden gems in retail, grocery, electronics, and more — shared by real users like you. Save money, post amazing finds, and explore trending offers.</p>
-        <p>Ready to join the community?</p>
-        <div class="d-flex flex-wrap gap-2 mt-4">
-            <a href="{{ url_for('auth.register') }}" class="btn btn-primary btn-md">Join Now</a>
-            <a href="{{ url_for('auth.login') }}" class="btn btn-outline-secondary btn-md">Login</a>
+        <div class="row align-items-center">
+            <div class="col-md-8">
+                <h1 class="display-4">Welcome to <span class="text-primary">DealVault</span></h1>
+                <p class="lead mt-3">Discover, post, and share the best community-driven deals around you.</p>
+                <p>DealVault is your local platform to uncover hidden gems in retail, grocery, electronics, and more — shared by real users like you. Save money, post amazing finds, and explore trending offers.</p>
+                <p>Ready to join the community?</p>
+                <div class="d-flex flex-wrap gap-2 mt-4">
+                    <a href="{{ url_for('auth.register') }}" class="btn btn-primary btn-md">Join Now</a>
+                    <a href="{{ url_for('auth.login') }}" class="btn btn-outline-secondary btn-md">Login</a>
+                </div>
+            </div>
+            <div class="col-md-4 text-center">
+                <img src="{{ url_for('static', filename='images/dealvault_logo.png') }}" alt="DealVault Logo" class="img-fluid" style="max-height: 180px;">
+            </div>
         </div>
     </div>
 </div>
