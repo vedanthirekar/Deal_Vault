@@ -38,7 +38,7 @@
         <a href="{{ url_for('main.deal', deal_id=deal.deal_id) }}" class="btn btn-outline-secondary btn-sm">View Deal</a>
         <form method="POST" action="{{ url_for('main.toggle_like', deal_id=deal.deal_id) }}" style="position:absolute; top:15px; right:15px;">
             <button type="submit" class="btn btn-sm {{ 'btn-danger' if current_user.has_liked(deal) else 'btn-outline-danger' }}">
-                ♥ {{ deal.liked_by|length }}
+                ♥ {{ deal.likes|length }}
             </button>
         </form>
     </div>

@@ -70,6 +70,7 @@ class Deal(db.Model):
     # Only keep this:
     likes = db.relationship('DealLike', back_populates='deal', cascade='all, delete-orphan')
 
+
     def __repr__(self):
         return f"Deal('{self.deal_desc}', '{self.deal_entered}')"
 
