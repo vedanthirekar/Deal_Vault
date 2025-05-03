@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, flash, redirect, url_for, request
 from flask_login import login_user, current_user, logout_user, login_required
 from . import db
-from .models import User, Deal, Store, Category
+from .models import User, Deal, Store, Category, DealLike
 from .forms import RegistrationForm, LoginForm, DealForm
 import pandas as pd
 import seaborn as sns
@@ -10,6 +10,7 @@ import squarify
 from io import BytesIO
 import base64
 import numpy as np
+from sqlalchemy import func
 
 
 main = Blueprint('main', __name__)
@@ -75,9 +76,6 @@ def index():
         return render_template('welcome.html')
 
 
-from .models import Store, Category  # add this import
-
-from .models import Store, Category, Deal
 
 @main.route('/deals/new', methods=['GET', 'POST'])
 @login_required
@@ -116,7 +114,8 @@ def all_deals():
     desc_query = request.args.get('desc')
     sort = request.args.get('sort', 'latest')
 
-    query = Deal.query
+    query = db.session.query(Deal)
+
 
     if store_query:
         query = query.join(Store).filter(Store.store_name.ilike(f"%{store_query}%"))
@@ -126,9 +125,10 @@ def all_deals():
         query = query.filter(Deal.deal_desc.ilike(f"%{desc_query}%"))
 
     if sort == 'popular':
-        query = query.order_by(Deal.deal_likes.desc())
+        query = query.outerjoin(Deal.likes).group_by(Deal.deal_id).order_by(func.count(DealLike.user_id).desc())
     else:
         query = query.order_by(Deal.deal_entered.desc())
+
 
     deals = query.all()
     categories = Category.query.all()
