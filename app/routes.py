@@ -26,13 +26,11 @@ def register():
     if form.validate_on_submit():
         from .models import UserProfile
 
-        # Create user
         user = User(username=form.username.data, email=form.email.data)
         user.set_password(form.password.data)
         db.session.add(user)
         db.session.commit()
 
-        # Create corresponding user profile
         profile = UserProfile(
             user_id=user.user_id,
             dob=form.dob.data,
@@ -45,6 +43,7 @@ def register():
         return redirect(url_for('auth.login'))
 
     return render_template('register.html', title='Register', form=form)
+
 
 @auth.route('/login', methods=['GET', 'POST'])
 def login():
@@ -61,10 +60,12 @@ def login():
             flash('Login unsuccessful. Please check email and password.', 'danger')
     return render_template('login.html', title='Login', form=form)
 
+
 @auth.route('/logout')
 def logout():
     logout_user()
     return redirect(url_for('main.index'))
+
 
 @main.route('/')
 @main.route('/home')
@@ -76,7 +77,6 @@ def index():
         return render_template('welcome.html')
 
 
-
 @main.route('/deals/new', methods=['GET', 'POST'])
 @login_required
 def new_deal():
@@ -84,7 +84,6 @@ def new_deal():
     form.category_id.choices = [(c.category_id, c.category_name) for c in Category.query.all()]
 
     if form.validate_on_submit():
-        # Check if store already exists
         store = Store.query.filter_by(store_name=form.store_name.data.strip()).first()
         if not store:
             store = Store(store_name=form.store_name.data.strip())
@@ -116,7 +115,6 @@ def all_deals():
 
     query = db.session.query(Deal)
 
-
     if store_query:
         query = query.join(Store).filter(Store.store_name.ilike(f"%{store_query}%"))
     if category_query:
@@ -129,7 +127,6 @@ def all_deals():
     else:
         query = query.order_by(Deal.deal_entered.desc())
 
-
     deals = query.all()
     categories = Category.query.all()
     return render_template('deals.html', deals=deals, categories=categories, store_query=store_query, category_query=category_query, desc_query=desc_query, sort=sort)
@@ -139,6 +136,7 @@ def all_deals():
 def deal(deal_id):
     deal = Deal.query.get_or_404(deal_id)
     return render_template('deal.html', title=deal.deal_desc, deal=deal)
+
 
 @main.route('/like/<int:deal_id>', methods=['POST'])
 @login_required
@@ -150,6 +148,7 @@ def toggle_like(deal_id):
         current_user.like_deal(deal)
     return redirect(request.referrer or url_for('main.index'))
 
+
 @main.route('/profile')
 @login_required
 def profile():
@@ -157,6 +156,7 @@ def profile():
     liked_deals = [like.deal for like in current_user.liked_deals]
 
     return render_template('profile.html', posted_deals=posted_deals, liked_deals=liked_deals)
+
 
 @main.route('/deals/<int:deal_id>/update', methods=['GET', 'POST'])
 @login_required
@@ -236,7 +236,6 @@ def visualizations():
         buf.seek(0)
         return base64.b64encode(buf.read()).decode()
 
-    # Define a consistent palette
     palette = sns.color_palette("coolwarm", as_cmap=False)
 
     # 1. Pie Chart: Deals per Category

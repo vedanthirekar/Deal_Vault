@@ -23,14 +23,12 @@ class RegistrationForm(FlaskForm):
         if user:
             raise ValidationError('That email is already taken. Please choose a different one.')
 
+
 class LoginForm(FlaskForm):
     email = StringField('Email', validators=[DataRequired(), Email()])
     password = PasswordField('Password', validators=[DataRequired()])
     submit = SubmitField('Login')
 
-# from flask_wtf import FlaskForm
-# from wtforms import StringField, FloatField, SubmitField, IntegerField, TextAreaField, DateField
-# from wtforms.validators import DataRequired, Optional, NumberRange
 
 class DealForm(FlaskForm):
     store_name = StringField('Store Name', validators=[DataRequired(), Length(min=2, max=100)])

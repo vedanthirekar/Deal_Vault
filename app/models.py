@@ -44,7 +44,6 @@ class User(db.Model, UserMixin):
             db.session.delete(like)
             db.session.commit()
 
-    
 
 class UserProfile(db.Model):
     __tablename__ = 'user_profile'
@@ -52,6 +51,7 @@ class UserProfile(db.Model):
     dob = db.Column(db.Date)
     gender = db.Column(db.String(1))
     num_likes = db.Column(db.Integer, default=0)
+
 
 class Deal(db.Model):
     __tablename__ = 'deals'
@@ -67,13 +67,10 @@ class Deal(db.Model):
     store = db.relationship('Store', backref='deals', lazy=True)
     category = db.relationship('Category', backref='deals', lazy=True)
 
-    # Only keep this:
     likes = db.relationship('DealLike', back_populates='deal', cascade='all, delete-orphan')
-
 
     def __repr__(self):
         return f"Deal('{self.deal_desc}', '{self.deal_entered}')"
-
 
 
 class Store(db.Model):
@@ -81,11 +78,13 @@ class Store(db.Model):
     store_id = db.Column(db.Integer, primary_key=True)
     store_name = db.Column(db.Text, nullable=False)
 
+
 class Category(db.Model):
     __tablename__ = 'categories'
     category_id = db.Column(db.Integer, primary_key=True)
     category_name = db.Column(db.Text, nullable=False)
     category_desc = db.Column(db.Text)
+    
     
 class DealLike(db.Model):
     __tablename__ = 'deal_likes'
@@ -93,7 +92,6 @@ class DealLike(db.Model):
     deal_id = db.Column(db.Integer, db.ForeignKey('deals.deal_id'), primary_key=True)
     timestamp = db.Column(db.DateTime, default=datetime.utcnow)
 
-    # Only these two:
     user = db.relationship('User', back_populates='liked_deals')
     deal = db.relationship('Deal', back_populates='likes')
 
